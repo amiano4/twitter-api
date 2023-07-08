@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTweetRequest extends FormRequest
+class UpdateTweetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,6 @@ class StoreTweetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'body' => 'required|string',
             'files' =>  'nullable|array',
             'files.*' =>  'nullable|file|mimes:jpeg,png,jpg',

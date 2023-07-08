@@ -39,6 +39,14 @@ Route::prefix('users')->name('users.')->group(function() {
         return response()->json($tweets);
     })->name('followedUserTweets');
 
+    Route::get('/{id}/followings', function($id) {
+        $follows = User::findOrFail($id)->followings->map(function($ff) {
+            return $ff->followed;
+        });
+
+        return response()->json($follows);
+    })->name('follows');
+
     // suggestions are the follows of a followed user
     Route::get('/{id}/suggestions/follows', function($id) {
         $user = User::findOrFail($id);
@@ -70,7 +78,7 @@ Route::prefix('users')->name('users.')->group(function() {
 Route::prefix('tweets')->name('tweets.')->group(function() {
     Route::get('/', [TweetController::class, 'index'])->name('index');
     Route::post('/create', [TweetController::class, 'store'])->name('store');
-    Route::put('/update/{tweet}', [TweetController::class, 'update'])->name('update');
+    Route::post('/update/{tweet}', [TweetController::class, 'update'])->name('update');
     Route::delete('/{tweet}', [TweetController::class, 'destroy'])->name('destroy');
 
 });
