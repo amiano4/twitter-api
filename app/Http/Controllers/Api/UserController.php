@@ -23,9 +23,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // return UserResource::collection(User::all());
-        // return response('hello world', 422);
-
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
@@ -52,7 +49,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return new UserResource($user);
     }
 
     /**
@@ -69,5 +66,29 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    /**
+     * Login user
+     */
+    public function login(Request $request) {
+        $credentials = $request->validate([
+            'username' => 'required|string|min:6',
+            'password' => 'required'
+        ]);
+
+
+        if($user = User::where('username', $credentials['username'])->first()) {
+            if(Hash::check($credentials['password'], $user['password'])) {
+                return response()->json([
+                    'message' => 'Sucessfully login!',
+                    'user' => new UserResource($user)
+                ]);
+            } else {
+                return response('Incorrect password entered.', 400);
+            }
+        } else {
+            return response('Invalid username', 400);
+        }
     }
 }
