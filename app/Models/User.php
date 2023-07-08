@@ -47,4 +47,12 @@ class User extends Authenticatable
     public function tweets() {
         return $this->hasMany(Tweet::class);
     }
+
+    public function followers() {
+        return $this->hasMany(User::class, 'followed_user');
+    }
+
+    public function followings() {
+        return $this->hasMany(User::class, 'follower');
+    }
 }
