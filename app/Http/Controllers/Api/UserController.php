@@ -91,4 +91,11 @@ class UserController extends Controller
             return response('Invalid username', 400);
         }
     }
+
+    public function logout(User $user) {
+        $user->remember_token = null;
+        $user->save();
+
+        return response("Logged out successfully!");
+    }
 }

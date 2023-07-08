@@ -72,6 +72,8 @@ Route::prefix('users')->name('users.')->group(function() {
 
         return response()->json($suggestions);
     })->name('suggestions');
+
+    Route::get('/logout/{user}', [UserController::class, 'logout'])->name('logout');
 });
 
 // tweets
