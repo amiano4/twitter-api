@@ -9,16 +9,16 @@ class Following extends Model
 {
     use HasFactory;
 
-    protected $filled = [
+    protected $fillable = [
         'follower',
         'followed_user'
     ];
 
-    public function followers() {
-        return $this->belongsTo(User::class, 'follower');
+    public function follower() {
+        return $this->belongsTo(User::class, 'follower_id');
     }
 
-    public function followings() {
+    public function followed() {
         return $this->belongsTo(User::class, 'followed_user');
     }
 }

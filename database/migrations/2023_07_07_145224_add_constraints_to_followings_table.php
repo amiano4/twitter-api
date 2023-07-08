@@ -13,6 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('followings', function (Blueprint $table) {
+            $table->unique(['follower', 'followed_user']);
             DB::statement('ALTER TABLE followings ADD CONSTRAINT con_cannot_follow_oneself CHECK (follower <> followed_user)');
         });
     }
@@ -23,6 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('followings', function (Blueprint $table) {
+            $table->dropUnique(['follower', 'followed_user']);
             DB::statement('ALTER TABLE followings DROP CONSTRAINT con_cannot_follow_oneself');
         });
     }
